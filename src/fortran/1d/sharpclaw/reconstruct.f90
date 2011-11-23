@@ -86,16 +86,21 @@ contains
     ! ===================================================================
 
         use weno
-        use clawparams, only: weno_order
+        use clawparams, only: weno_order, t1
         implicit none
 
         integer,          intent(in) :: meqn, maxnx, mbc
         double precision, intent(in) :: q(meqn,maxnx+2*mbc)
         double precision, intent(out) :: ql(meqn,maxnx+2*mbc),qr(meqn,maxnx+2*mbc)
 
+        real time_begin, time_end
+
         select case(weno_order)
         case (5)
+           call cpu_time(time_begin)
            call weno5(q,ql,qr,meqn,maxnx,mbc)
+           call cpu_time(time_end)
+           t1 = t1 + time_end - time_begin
         case (7)
            call weno7(q,ql,qr,meqn,maxnx,mbc)           
         case (9)
@@ -127,12 +132,17 @@ contains
 
         integer :: meqn, mx2
 
+        real time_begin, time_end
+        call cpu_time(time_begin)
+
         mx2  = size(q,2); meqn = size(q,1)
 
         !loop over all equations (all components).  
         !the reconstruction is performed component-wise;
         !no characteristic decomposition is used here
 
+!        print *, '@ optimized WENO'
+        
         do m=1,meqn
 
             forall (i=2:mx2)
@@ -180,6 +190,9 @@ contains
            ql(m,mbc  :mx2-mbc+1)=uu(2,mbc:mx2-mbc+1)
 
         end do
+
+      call cpu_time(time_end)
+      t1 = t1 + time_end - time_begin
 
       return
       end subroutine weno5

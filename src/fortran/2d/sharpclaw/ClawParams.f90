@@ -9,6 +9,10 @@ module ClawParams
   integer, allocatable :: mthlim(:)
   logical :: fwave, tfluct_solver
 
+! timing
+  real :: t1
+
+
 contains
 
     subroutine alloc_clawparams()
