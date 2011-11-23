@@ -61,10 +61,12 @@ def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_t
     # Grid:
     xlower = -2.5
     xupper = 2.5
-    mx = 150
+    #mx = 150
+    mx=500
     ylower = -2.5
     yupper = 2.5
-    my = 150
+    #my = 150
+    my=500
     x = pyclaw.Dimension('x',xlower,xupper,mx)
     y = pyclaw.Dimension('y',ylower,yupper,my)
     grid = pyclaw.Grid([x,y])
@@ -112,7 +114,12 @@ def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_t
 
 if __name__=="__main__":
     from pyclaw.util import run_app_from_main
+
+    import time
+    tstart_cpu = time.clock()
     output = run_app_from_main(shallow2D)
+    t_cpu = time.clock() - tstart_cpu
+    print "CPU time: %12.8f seconds" % t_cpu
     print 'Error: ', output
 
 

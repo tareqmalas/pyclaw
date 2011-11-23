@@ -268,6 +268,7 @@ class SharpClawSolver(Solver):
         clawparams.tfluct_solver = self.tfluct_solver
         clawparams.fwave         = self.fwave
         clawparams.mcapa         = state.mcapa+1
+        clawparams.t1         = 0.0
 
         clawparams.mwaves        = self.mwaves
         clawparams.alloc_clawparams()
@@ -506,6 +507,7 @@ class SharpClawSolver2D(SharpClawSolver):
             from sharpclaw2 import clawparams, workspace, reconstruct
             workspace.dealloc_workspace(self.char_decomp)
             reconstruct.dealloc_recon_workspace(clawparams.lim_type,clawparams.char_decomp)
+            print 'WENO time:', clawparams.t1, 'seconds'
             clawparams.dealloc_clawparams()
             import sharpclaw2
             del sharpclaw2
