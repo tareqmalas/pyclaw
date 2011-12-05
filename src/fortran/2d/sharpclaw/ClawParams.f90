@@ -11,7 +11,9 @@ module ClawParams
 
 ! timing
   real :: t1
-
+  real :: t_rp1
+  real :: t_flux1
+  real :: t_flux2
 
 contains
 

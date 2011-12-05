@@ -174,7 +174,7 @@ def shockbubble(use_petsc=False,iplot=False,htmlplot=False,outdir='./_output',so
         solver = pyclaw.SharpClawSolver2D()
         solver.dq_src=dq_Euler_radial
         solver.weno_order=5
-        solver.lim_type=2
+        solver.lim_type=3
     else:
         solver = pyclaw.ClawSolver2D()
         solver.dim_split = 0
@@ -195,8 +195,8 @@ def shockbubble(use_petsc=False,iplot=False,htmlplot=False,outdir='./_output',so
     solver.aux_bc_upper[1]=pyclaw.BC.outflow
 
     # Initialize grid
-#    mx=320; my=80
-    mx=640; my=160
+    mx=320; my=80
+#    mx=640; my=160
 
     x = pyclaw.Dimension('x',0.0,2.0,mx)
     y = pyclaw.Dimension('y',0.0,0.5,my)

@@ -93,14 +93,14 @@ contains
         double precision, intent(in) :: q(meqn,maxnx+2*mbc)
         double precision, intent(out) :: ql(meqn,maxnx+2*mbc),qr(meqn,maxnx+2*mbc)
 
-        real time_begin, time_end
+!        real time_begin, time_end
 
         select case(weno_order)
         case (5)
-           call cpu_time(time_begin)
+!           call cpu_time(time_begin)
            call weno5(q,ql,qr,meqn,maxnx,mbc)
-           call cpu_time(time_end)
-           t1 = t1 + time_end - time_begin
+!           call cpu_time(time_end)
+!           t1 = t1 + time_end - time_begin
         case (7)
            call weno7(q,ql,qr,meqn,maxnx,mbc)           
         case (9)
@@ -132,8 +132,8 @@ contains
 
         integer :: meqn, mx2
 
-        real time_begin, time_end
-        call cpu_time(time_begin)
+!        real time_begin, time_end
+!        call cpu_time(time_begin)
 
         mx2  = size(q,2); meqn = size(q,1)
 
@@ -191,8 +191,8 @@ contains
 
         end do
 
-      call cpu_time(time_end)
-      t1 = t1 + time_end - time_begin
+!      call cpu_time(time_end)
+!      t1 = t1 + time_end - time_begin
 
       return
       end subroutine weno5

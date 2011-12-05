@@ -55,6 +55,8 @@ subroutine flux1(q1d,dq1d,aux,dt,cfl,t,ixy,maux,meqn,mx,mbc,maxnx)
     integer, intent(in) :: ixy
     integer t
 
+    
+    real time_begin, time_end
 
     if (mcapa.gt.0) then
         dtdx = dt / (dx(ixy)*aux(mcapa,:))
@@ -64,6 +66,7 @@ subroutine flux1(q1d,dq1d,aux,dt,cfl,t,ixy,maux,meqn,mx,mbc,maxnx)
     if (ndim.gt.1) dq1d=0.d0
 
 
+    call cpu_time(time_begin)
     select case(lim_type)
         ! Non-limited reconstruction of components of q (simplest approach)
 !        case(0)
@@ -118,12 +121,18 @@ subroutine flux1(q1d,dq1d,aux,dt,cfl,t,ixy,maux,meqn,mx,mbc,maxnx)
         case(3)
             call weno5(q1d,ql,qr,meqn,maxnx,mbc)
       end select
+ 
+      call cpu_time(time_end)
+      t1 = t1 + time_end - time_begin
 
 
     ! solve Riemann problem at each interface 
     ! -----------------------------------------
+    call cpu_time(time_begin)
     call rpn2(ixy,maxnx,meqn,mwaves,mbc,mx,ql,qr,aux,aux, &
               wave,s,amdq,apdq)
+    call cpu_time(time_end)
+    t_rp1 = t_rp1 + time_end - time_begin
 
     ! compute maximum wave speed:
     cfl = 0.d0

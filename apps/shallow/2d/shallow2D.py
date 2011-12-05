@@ -52,6 +52,7 @@ def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_t
     solver.bc_lower[1] = pyclaw.BC.outflow
     solver.bc_upper[1] = pyclaw.BC.reflecting
     solver.dim_split=1
+    solver.lim_type=3
 
     #===========================================================================
     # Initialize grid and state, then initialize the solution associated to the 

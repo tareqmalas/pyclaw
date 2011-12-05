@@ -29,8 +29,12 @@ subroutine flux2(q,dq,q1d,dq1d,aux,dt,cfl,t,maux,meqn,mbc,maxnx,mx,my)
 !f2py intent(out) cfl  
 !f2py optional dq, q1d, dq1d
 
+    real time_begin1, time_end1, time_begin2, time_end2
+
     cfl = 0.d0
 
+    call cpu_time(time_begin1)
+        
     ! perform x-sweeps
     ! ==================
 
@@ -45,7 +49,11 @@ subroutine flux2(q,dq,q1d,dq1d,aux,dt,cfl,t,maux,meqn,mbc,maxnx,mx,my)
 
 
         ! compute modification dq1d along this slice:
+        call cpu_time(time_begin2)
         call flux1(q1dp,dq1d,auxp,dt,cfl1d,t,1,maux,meqn,mx,mbc,maxnx)
+        call cpu_time(time_end2)
+        t_flux1 = t_flux1 + time_end2 - time_begin2
+
         cfl = dmax1(cfl,cfl1d)
 
 
@@ -77,8 +85,12 @@ subroutine flux2(q,dq,q1d,dq1d,aux,dt,cfl,t,maux,meqn,mbc,maxnx,mx,my)
         if (maux .gt. 0)  then
             auxp => aux(:,i,:)
         endif
-
+        
+        call cpu_time(time_begin2)
         call flux1(q1dp,dq1d,auxp,dt,cfl1d,t,2,maux,meqn,my,mbc,maxnx)
+        call cpu_time(time_end2)
+        t_flux1 = t_flux1 + time_end2 - time_begin2
+
         cfl = dmax1(cfl,cfl1d)
 
         if (mcapa.eq.0) then
@@ -92,5 +104,8 @@ subroutine flux2(q,dq,q1d,dq1d,aux,dt,cfl,t,maux,meqn,mbc,maxnx,mx,my)
             dq(:,i,:) = dq(:,i,:)+dq1d
         endif
     enddo !end y sweeps
+
+    call cpu_time(time_end1)
+    t_flux2 = t_flux2 + time_end1 - time_begin1
 
 end subroutine flux2
