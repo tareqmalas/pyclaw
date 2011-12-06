@@ -187,9 +187,12 @@ subroutine flux1(q1d,dq1d,aux,dt,cfl,t,ixy,maux,meqn,mx,mbc,maxnx)
                 enddo
             enddo
         endif
-        
+
+        call cpu_time(time_begin)
         call rpn2(ixy,maxnx,meqn,mwaves,mbc,mx,ql,qr, &
                  auxl,auxr,wave,s,amdq2,apdq2)
+        call cpu_time(time_end)
+        t_rp1 = t_rp1 + time_end - time_begin
 
         forall(i=1:mx, m=1:meqn)
             dq1d(m,i) = dq1d(m,i)-dtdx(i)*(amdq(m,i+1)+ &
