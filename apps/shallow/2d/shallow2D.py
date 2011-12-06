@@ -25,7 +25,7 @@ def qinit(state,hl,ul,vl,hr,ur,vr,radDam):
     state.q[2,:,:] = hl*vl*(r<=radDam) + hr*vr*(r>radDam)
 
     
-def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_type='classic'):
+def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_type='classic', mx=150, my=150):
     #===========================================================================
     # Import libraries
     #===========================================================================
@@ -63,11 +63,11 @@ def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_t
     xlower = -2.5
     xupper = 2.5
     #mx = 150
-    mx=500
+    #mx=500
     ylower = -2.5
     yupper = 2.5
     #my = 150
-    my=500
+    #my=500
     x = pyclaw.Dimension('x',xlower,xupper,mx)
     y = pyclaw.Dimension('y',ylower,yupper,my)
     grid = pyclaw.Grid([x,y])
@@ -112,16 +112,25 @@ def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_t
     if iplot:     plot.interactive_plot(outdir=outdir,format=claw.output_format)
     if htmlplot:  plot.html_plot(outdir=outdir,format=claw.output_format)
 
+    return claw.solution.q, solver, grid, solver_type
 
 if __name__=="__main__":
     from pyclaw.util import run_app_from_main
 
     import time
     tstart_cpu = time.clock()
-    output = run_app_from_main(shallow2D)
+    output, solver, grid, st  = run_app_from_main(shallow2D)
     t_cpu = time.clock() - tstart_cpu
-    print "CPU time: %12.8f seconds" % t_cpu
-    print 'Error: ', output
+    print "time_total:%f" % t_cpu
+    
+    print "param_problem:shockbubble"
+    print "param_solver_type:%s" % st
+    print "param_order:%d" % solver.weno_order
+    print "param_lim_type:%d" % solver.lim_type
+    print "param_grid_x:%d" % grid.n[0]
+    print "param_grid_y:%d" % grid.n[1]    
+    
+#    print 'Error: ', output
 
 
 
