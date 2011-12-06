@@ -52,7 +52,8 @@ def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_t
     solver.bc_lower[1] = pyclaw.BC.outflow
     solver.bc_upper[1] = pyclaw.BC.reflecting
     solver.dim_split=1
-    solver.lim_type=3
+    solver.lim_type=2
+    solver.weno_order=5
 
     #===========================================================================
     # Initialize grid and state, then initialize the solution associated to the 
@@ -95,6 +96,7 @@ def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_t
     # Set up controller and controller parameters
     #===========================================================================
     claw = pyclaw.Controller()
+    claw.output_format = None
     claw.tfinal = 2.5
     claw.solution = pyclaw.Solution(state)
     claw.solver = solver
@@ -116,13 +118,13 @@ def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_t
 
 if __name__=="__main__":
     from pyclaw.util import run_app_from_main
-    import cProfile
-    import pstats
+#    import cProfile
+#    import pstats
     
     import time
     tstart_cpu = time.clock()
-#    output, solver, grid, st  = run_app_from_main(shallow2D)
-    cProfile.run('output, solver, grid, st = run_app_from_main(shallow2D)', 'shallow_prof')
+    output, solver, grid, st  = run_app_from_main(shallow2D)
+#    cProfile.run('output, solver, grid, st = run_app_from_main(shallow2D)', 'shallow_prof')
     t_cpu = time.clock() - tstart_cpu
     print "time_total:%f" % t_cpu
     
@@ -133,8 +135,8 @@ if __name__=="__main__":
     print "param_grid_x:%d" % grid.n[0]
     print "param_grid_y:%d" % grid.n[1]    
     
-    p = pstats.Stats('shallow_prof')
-    p.sort_stats('time').print_stats(15)
+#    p = pstats.Stats('shallow_prof')
+#    p.sort_stats('time').print_stats(15)
 #    print 'Error: ', output
 
 
