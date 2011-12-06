@@ -123,7 +123,7 @@ if __name__=="__main__":
     t_cpu = time.clock() - tstart_cpu
     print "time_total:%f" % t_cpu
     
-    print "param_problem:shockbubble"
+    print "param_problem:shallow2D"
     print "param_solver_type:%s" % st
     print "param_order:%d" % solver.weno_order
     print "param_lim_type:%d" % solver.lim_type
