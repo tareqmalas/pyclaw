@@ -25,7 +25,7 @@ def qinit(state,hl,ul,vl,hr,ur,vr,radDam):
     state.q[2,:,:] = hl*vl*(r<=radDam) + hr*vr*(r>radDam)
 
     
-def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_type='classic', mx=150, my=150):
+def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_type='classic', mx=150, my=150, lim_type=2, weno_order=5):
     #===========================================================================
     # Import libraries
     #===========================================================================
@@ -52,8 +52,8 @@ def shallow2D(use_petsc=False,iplot=0,htmlplot=False,outdir='./_output',solver_t
     solver.bc_lower[1] = pyclaw.BC.outflow
     solver.bc_upper[1] = pyclaw.BC.reflecting
     solver.dim_split=1
-    solver.lim_type=2
-    solver.weno_order=5
+    solver.lim_type=lim_type
+    solver.weno_order=weno_order
 
     #===========================================================================
     # Initialize grid and state, then initialize the solution associated to the 
