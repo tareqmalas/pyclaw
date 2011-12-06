@@ -510,10 +510,10 @@ class SharpClawSolver2D(SharpClawSolver):
             from sharpclaw2 import clawparams, workspace, reconstruct
             workspace.dealloc_workspace(self.char_decomp)
             reconstruct.dealloc_recon_workspace(clawparams.lim_type,clawparams.char_decomp)
-            print 'WENO time:', clawparams.t1, 'seconds'
-            print 'RP   time:', clawparams.t_rp1, 'seconds'
-            print 'flux1   time:', clawparams.t_flux1, 'seconds'
-            print 'flux2   time:', clawparams.t_flux2, 'seconds'
+            print 'time_weno:%f' % (clawparams.t1)
+            print 'time_rp:%f' % clawparams.t_rp1
+            print 'time_flux1:%f' % clawparams.t_flux1
+            print 'time_flux2:%f' % clawparams.t_flux2
             clawparams.dealloc_clawparams()
             import sharpclaw2
             del sharpclaw2

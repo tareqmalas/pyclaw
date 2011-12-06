@@ -195,7 +195,8 @@ def shockbubble(use_petsc=False,iplot=False,htmlplot=False,outdir='./_output',so
     solver.aux_bc_upper[1]=pyclaw.BC.outflow
 
     # Initialize grid
-    mx=320; my=80
+    mx=80; my=20
+#    mx=320; my=80
 #    mx=640; my=160
 
     x = pyclaw.Dimension('x',0.0,2.0,mx)
@@ -226,12 +227,20 @@ def shockbubble(use_petsc=False,iplot=False,htmlplot=False,outdir='./_output',so
     if htmlplot:  pyclaw.plot.html_plot(outdir=outdir)
     if iplot:     pyclaw.plot.interactive_plot(outdir=outdir)
 
-    return claw.solution.q
+    return claw.solution.q, solver, grid, solver_type
 
 if __name__=="__main__":
     from pyclaw.util import run_app_from_main
     import time
     tstart_cpu = time.clock()
-    output = run_app_from_main(shockbubble)
+    output, solver, grid, st = run_app_from_main(shockbubble)
     t_cpu = time.clock() - tstart_cpu
-    print "CPU time: %12.8f seconds" % t_cpu
+    print "time_total:%f" % t_cpu
+    
+    print "param_problem:shockbubble"
+    print "param_solver_type:%s" % st
+    print "param_order:%d" % solver.weno_order
+    print "param_lim_type:%d" % solver.lim_type
+    print "param_grid_x:%d" % grid.n[0]
+    print "param_grid_y:%d" % grid.n[1]
+    
