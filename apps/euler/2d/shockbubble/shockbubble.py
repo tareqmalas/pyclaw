@@ -158,8 +158,7 @@ def step_Euler_radial(solver,state,dt):
     q[2,:,:] = q[2,:,:] - dt*(ndim-1)/rad * rho*v*v
     q[3,:,:] = q[3,:,:] - dt*(ndim-1)/rad * v * (qstar[3,:,:] + press)
 
-
-def shockbubble(use_petsc=False,iplot=False,htmlplot=False,outdir='./_output',solver_type='classic',mx=640, my=160):
+def shockbubble(use_petsc=False,iplot=False,htmlplot=False,outdir='./_output',solver_type='classic',mx=640, my=160, lim_type=2, weno_order=5):
     """
     Solve the Euler equations of compressible fluid dynamics.
     This example involves a bubble of dense gas that is impacted by a shock.
@@ -215,6 +214,7 @@ def shockbubble(use_petsc=False,iplot=False,htmlplot=False,outdir='./_output',so
     solver.user_bc_lower=shockbc
 
     claw = pyclaw.Controller()
+    claw.output_format = None
     claw.tfinal = 0.75
     claw.solution = pyclaw.Solution(state)
     claw.solver = solver
