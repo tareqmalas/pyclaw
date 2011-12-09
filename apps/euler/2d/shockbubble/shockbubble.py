@@ -172,8 +172,8 @@ def shockbubble(use_petsc=False,iplot=False,htmlplot=False,outdir='./_output',so
     if solver_type=='sharpclaw':
         solver = pyclaw.SharpClawSolver2D()
         solver.dq_src=dq_Euler_radial
-        solver.weno_order=5
-        solver.lim_type=3
+        solver.weno_order=weno_order
+        solver.lim_type=lim_type
     else:
         solver = pyclaw.ClawSolver2D()
         solver.dim_split = 0
