@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 import numpy as np
-from scipy import integrate
+#from scipy import integrate
 
 gamma = 1.4
 gamma1 = gamma - 1.
@@ -51,21 +51,21 @@ def qinit(state,rhoin=0.1,bubble_shape='circle'):
     state.q[4,:,:] = 1.*(r<=r0)
 
     #Now average for the cells on the edge of the bubble
-    d2 = np.linalg.norm(state.grid.d)/2.
-    dx = state.grid.d[0]
-    dy = state.grid.d[1]
-    dx2 = state.grid.d[0]/2.
-    dy2 = state.grid.d[1]/2.
-    for i in xrange(state.q.shape[1]):
-        for j in xrange(state.q.shape[2]):
-            ydown = y[j]-dy2
-            yup   = y[j]+dy2
-            if abs(r[i,j]-r0)<d2:
-                infrac,abserr = integrate.quad(ycirc,x[i]-dx2,x[i]+dx2,args=(ydown,yup),epsabs=1.e-8,epsrel=1.e-5)
-                infrac=infrac/(dx*dy)
-                state.q[0,i,j] = rhoin*infrac + rhoout*(1.-infrac)
-                state.q[3,i,j] = (pin*infrac + pout*(1.-infrac))/gamma1
-                state.q[4,i,j] = 1.*infrac
+#    d2 = np.linalg.norm(state.grid.d)/2.
+#    dx = state.grid.d[0]
+#    dy = state.grid.d[1]
+#    dx2 = state.grid.d[0]/2.
+#    dy2 = state.grid.d[1]/2.
+#    for i in xrange(state.q.shape[1]):
+#        for j in xrange(state.q.shape[2]):
+#            ydown = y[j]-dy2
+#            yup   = y[j]+dy2
+#            if abs(r[i,j]-r0)<d2:
+#                infrac,abserr = integrate.quad(ycirc,x[i]-dx2,x[i]+dx2,args=(ydown,yup),epsabs=1.e-8,epsrel=1.e-5)
+#                infrac=infrac/(dx*dy)
+#                state.q[0,i,j] = rhoin*infrac + rhoout*(1.-infrac)
+#                state.q[3,i,j] = (pin*infrac + pout*(1.-infrac))/gamma1
+#                state.q[4,i,j] = 1.*infrac
 
 
 def auxinit(state):
